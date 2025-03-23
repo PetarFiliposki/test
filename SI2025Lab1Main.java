@@ -84,8 +84,15 @@ class TaskManager {
    }
 
     // 5. Filter tasks by category
-    public List<Task> filterByCategory(String category) {   
-    }    
+    public List<Task> filterByCategory(String category) {
+        List<Task> filteredTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getCategory().equalsIgnoreCase(category)) {
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
+    }
     // 6. Find the highest-priority unfinished task
     public List<Task> getMostUrgentTasks() {
         // TODO: Implement logic to find most urgent tasks
@@ -118,11 +125,11 @@ public class SI2025Lab1Main {
         manager.addTask("Write report", Priority.HIGH, "Work");
         manager.addTask("Submit assignment", Priority.MEDIUM, "School");
         manager.addTask("Buy groceries", Priority.LOW, "Personal");
-        Map<String, Integer> categoryCounts = manager.countTasksPerCategory();
-        for (Map.Entry<String, Integer> entry : categoryCounts.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        // MISSING: Calls to the new methods that will be implemented
+        String categoryToFilter = "Personal";
+        List<Task> filteredTasks = manager.filterByCategory(categoryToFilter);
+        for (Task task : filteredTasks) {
+            System.out.println(task);
         }
-        manager.printTasks();
-       
     }
 }
