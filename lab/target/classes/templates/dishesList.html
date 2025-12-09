@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Dish to Chef</title>
+  <style>
+    body {
+      width: 800px;
+      margin: auto;
+      font-family: Arial, sans-serif;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    table, td, th {
+      border: 1px solid black;
+      padding: 10px;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    section {
+      float: left;
+      margin: 0 1.5%;
+      width: 63%;
+    }
+    aside {
+      float: right;
+      margin: 0 1.5%;
+      width: 30%;
+    }
+    .dish-option {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Add Dish to Chef</h1>
+</header>
+
+<section>
+  <h2>Select Dish:</h2>
+  <form action="/chefDetails" method="POST">
+    <input type="hidden" name="chefId" th:value="${chefId}">
+
+    <div th:each="dish : ${dishes}" class="dish-option">
+      <input type="radio" th:id="${'dish' + dish.id}" name="dishId" th:value="${dish.dishId}" required>
+      <label th:for="${'dish' + dish.id}" th:text="${dish.name} + ' (' + ${dish.cuisine} + ')'"></label>
+    </div>
+
+    <br/>
+    <input type="submit" value="Add Dish">
+  </form>
+</section>
+
+<aside>
+  <h2>Chef Details</h2>
+  <table>
+    <tr>
+      <td><b>Chef ID</b></td>
+      <td th:text="${chefId}"></td>
+    </tr>
+    <tr>
+      <td><b>Chef Name</b></td>
+      <td th:text="${chefName}"></td>
+    </tr>
+    <tr>
+      <td><b>Existing Dishes</b></td>
+      <td>
+        <ul>
+          <li th:each="dish : ${dishes}" th:text="${dish.name}" th:if="${dish.chef.id == chefId}"></li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</aside>
+
+</body>
+</html>

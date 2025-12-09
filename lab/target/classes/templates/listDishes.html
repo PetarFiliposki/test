@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>List of Dishes</title>
+  <style>
+    body { width: 800px; margin: auto; font-family: Arial, sans-serif; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid black; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    a, button { margin-right: 5px; }
+    form { display: inline; }
+  </style>
+</head>
+<body>
+<h1>All Dishes</h1>
+
+<div th:if="${hasError}">
+  <p style="color:red;">Error: <span th:text="${error}"></span></p>
+</div>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>DishId</th>
+    <th>Name</th>
+    <th>Cuisine</th>
+    <th>Preparation Time</th>
+    <th>Chef</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="d : ${dishes_list}">
+    <td th:text="${d.id}">1</td>
+    <td th:text="${d.dishId}">D1</td>
+    <td th:text="${d.name}">Ratatouille</td>
+    <td th:text="${d.cuisine}">French</td>
+    <td th:text="${d.preparationTime}">30</td>
+    <td th:text="${d.chef != null} ? ${d.chef.name} : 'N/A'">Alice Waters</td>
+    <td>
+      <a th:href="@{/dishes/dish-form/{id}(id=${d.id})}">Edit</a>
+      <form th:action="@{/dishes/delete/{id}(id=${d.id})}" method="post">
+        <button type="submit" onclick="return confirm('Delete this dish?');">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<br/>
+<a th:href="@{/dishes/dish-form}">Add New Dish</a>
+<br/><br/>
+<a th:href="@{/dishes/chefs}">List of Chefs</a>
+</body>
+</html>
